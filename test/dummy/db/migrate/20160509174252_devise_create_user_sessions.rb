@@ -1,6 +1,6 @@
 class DeviseCreateUserSessions < ActiveRecord::Migration
   @@table_name = :user_sessions
-  @@column_name = :<%= file_name %>_id
+  @@column_name = :user_id
 
   def up
     create_table @@table_name do |t|

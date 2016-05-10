@@ -8,13 +8,14 @@ module Devise
       included do
         has_many :user_sessions,
                  class_name: 'UserSession',
-                 foreign_key: :user_id,
                  dependent: :destroy
       end
 
-      def activate_session
+      def activate_session(warden)
         new_session = user_sessions.new
         new_session.session_id = SecureRandom.hex(127)
+        new_session.ip = warden.request.ip
+        new_session.user_agent = warden.request.user_agent
         new_session.save
         purge_old_sessions
         new_session.session_id
