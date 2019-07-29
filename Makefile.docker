@@ -1,0 +1,18 @@
+BUILD_HOME = /home/h4ci1
+DOCKER_REPOSITORY ?= artifacts.tet.wtf:6557
+DOCKER_USERNAME ?= h4re1
+DOCKER_PASSWORD := $$(cat ~/.jfrog/jfrog-cli.conf | jq -r '.artifactory | .[] | select(.serverId == "artifactory-sjc-b4") | .apiKey')
+
+ .PHONY: build-rpm
+.ONESHELL:
+.SHELLFLAGS = -ec
+build:
+	# @echo "$(DOCKER_PASSWORD)" | docker login $(DOCKER_REPOSITORY) -u="$(DOCKER_USERNAME)" --password-stdin
+	docker pull $(DOCKER_REPOSITORY)/ruby-centos7:latest
+	ID=$$(docker create -w $(BUILD_HOME) -i $(DOCKER_REPOSITORY)/package-centos7:latest /bin/bash -l -c "cd devise_invalidatable && bundle install && rake build")
+	docker cp -a ./. $${ID}:$(BUILD_HOME)/devise_invalidatable/
+	docker start -ai $${ID}
+	docker stop $${ID}
+	mkdir -p pkg
+	docker cp $${ID}:$(BUILD_HOME)/devise_invalidatable/pkg/. ./pkg/
+	docker rm $${ID}
