@@ -1,7 +1,6 @@
 unless defined?(Devise)
   require 'devise'
 end
-require 'devise_invalidatable'
 
 Devise.add_module(:invalidatable,
                   model: 'devise_invalidatable/model')
