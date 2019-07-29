@@ -10,7 +10,7 @@ build:
 	@echo "$(DOCKER_PASSWORD)" | docker login $(DOCKER_REPOSITORY) -u="$(DOCKER_USERNAME)" --password-stdin
 	docker pull $(DOCKER_REPOSITORY)/ruby-centos7:latest
 	ID=$$(docker create -w $(BUILD_HOME) -i $(DOCKER_REPOSITORY)/package-centos7:latest \
-		/bin/bash -l -c "yum install sqlite-devel && cd devise_invalidatable && bundle install && rake build")
+		/bin/bash -l -c "sudo yum install sqlite-devel && cd devise_invalidatable && bundle install && rake build")
 	docker cp -a ./. $${ID}:$(BUILD_HOME)/devise_invalidatable/
 	docker start -ai $${ID}
 	docker stop $${ID}
