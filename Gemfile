@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
 
-gem 'rails'
+gem 'devise', '~> 4.6'
+gem 'rails', '~> 5.2'
 gem 'sqlite3'
-gem 'devise'
