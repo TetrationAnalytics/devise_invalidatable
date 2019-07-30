@@ -6,9 +6,9 @@ The core logic was shamelessly copied from [this](http://www.jonathanleighton.co
 
 ## Installation
 
-Add `devise_invalidatable` to your Gemfile and install
+Add `h4-devise_invalidatable` to your Gemfile and install
 ```
-gem 'devise_invalidatable`
+gem 'h4-devise_invalidatable`
 ```
 ```
 bundle install
