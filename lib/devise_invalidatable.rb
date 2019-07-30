@@ -1,9 +1,6 @@
-unless defined?(Devise)
-  require 'devise'
-end
+require 'devise' unless defined?(Devise)
 
-Devise.add_module(:invalidatable,
-                  model: 'devise_invalidatable/model')
+Devise.add_module(:invalidatable, model: 'devise_invalidatable/model')
 
 module DeviseInvalidatable
 end

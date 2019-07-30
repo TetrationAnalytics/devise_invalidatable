@@ -6,9 +6,7 @@ module Devise
       extend ActiveSupport::Concern
 
       included do
-        has_many :user_sessions,
-                 class_name: 'UserSession',
-                 dependent: :destroy
+        has_many :user_sessions, class_name: 'UserSession', dependent: :destroy
       end
 
       def activate_session(options = {})
@@ -32,7 +30,6 @@ module Devise
       def purge_old_sessions
         user_sessions.order('created_at desc').offset(10).destroy_all
       end
-
     end
   end
 end

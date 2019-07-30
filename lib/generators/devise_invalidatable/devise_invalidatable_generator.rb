@@ -1,17 +1,15 @@
 require 'rails/generators'
 
 class DeviseInvalidatableGenerator < Rails::Generators::NamedBase
-  if defined?(ActiveRecord)
-    include Rails::Generators::Migration
-  end
+  include Rails::Generators::Migration if defined?(ActiveRecord)
 
   desc 'Creates a migration to add the required attributes to NAME, and adds ' \
        'the necessary Devise directives to the model'
   class_option :mongoid, type: :boolean, group: :runtime,
-               desc: 'Create mongoid user session model'
+                         desc: 'Create mongoid user session model'
 
   def self.source_root
-    @_devise_source_root ||= File.expand_path('../templates', __FILE__)
+    @source_root ||= File.expand_path('templates', __dir__)
   end
 
   def self.next_migration_number(dirname)
@@ -35,7 +33,8 @@ class DeviseInvalidatableGenerator < Rails::Generators::NamedBase
   private
 
   def create_migration_file
-    migration_template 'migration.rb', 'db/migrate/devise_create_user_sessions.rb'
+    migration_template 'migration.rb',
+                       'db/migrate/devise_create_user_sessions.rb'
   end
 
   def create_session_model
@@ -49,7 +48,8 @@ class DeviseInvalidatableGenerator < Rails::Generators::NamedBase
     indent_depth = class_path.size
 
     content = ['devise :invalidatable']
-    content = content.map { |line| '  ' * indent_depth + line }.join("\n") << "\n"
+    content = content.map { |line| '  ' * indent_depth + line }
+                     .join("\n") << "\n"
 
     inject_into_class(model_path, class_path.last, content)
   end
